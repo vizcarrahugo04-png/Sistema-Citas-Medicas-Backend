@@ -25,6 +25,12 @@ public class UsuarioService implements IUsuarioService {
     public UsuarioDTO save (UsuarioDTO dto){
         Rol rol = rolRepo.findById(dto.getIdRol()).orElseThrow(()-> new ResourceNotFoundExceptions("No se encontro el rol con ID: "+dto.getIdRol()));
 
+        if(usuarioRepo.existsByCorreo(dto.getCorreo())){
+        throw new RuntimeException(
+                "El correo ya está registrado: " + dto.getCorreo()
+        );
+        }
+
         Usuario usuario = new Usuario();
         usuario.setUsername(dto.getUsername());
         usuario.setCorreo(dto.getCorreo());
@@ -43,6 +49,10 @@ public class UsuarioService implements IUsuarioService {
 
         Rol rol = rolRepo.findById(dto.getIdRol()).orElseThrow(()-> new ResourceNotFoundExceptions("No se encontro el rol con ID: "+dto.getIdRol()));
 
+        if (usuarioRepo.existsByCorreoAndIdUsuarioNot(dto.getCorreo(), id)) {
+        throw new RuntimeException("El correo ya está registrado: " + dto.getCorreo());
+        }
+        usuario.setIdUsuario(id);
         usuario.setUsername(dto.getUsername());
         usuario.setCorreo(dto.getCorreo());
         usuario.setPassword(dto.getPassword());
