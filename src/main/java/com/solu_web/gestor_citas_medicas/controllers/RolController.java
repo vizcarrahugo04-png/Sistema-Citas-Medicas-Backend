@@ -26,6 +26,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/roles")
+//Agregamos CORS para angular
 @CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 public class RolController {
