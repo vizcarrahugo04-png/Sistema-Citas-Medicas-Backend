@@ -2,6 +2,7 @@ package com.solu_web.gestor_citas_medicas.services.ipml;
 
 import java.util.List;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.solu_web.gestor_citas_medicas.dtos.UsuarioDTO;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UsuarioService implements IUsuarioService {
 
+    private final BCryptPasswordEncoder passwordEncoder;
     private final IUsuarioRepo usuarioRepo;
     private final IRolRepo rolRepo;
 
@@ -34,7 +36,7 @@ public class UsuarioService implements IUsuarioService {
         Usuario usuario = new Usuario();
         usuario.setUsername(dto.getUsername());
         usuario.setCorreo(dto.getCorreo());
-        usuario.setPassword(dto.getPassword());
+        usuario.setPassword(passwordEncoder.encode(dto.getPassword()));;
         usuario.setEstado(dto.getEstado());
         usuario.setRol(rol);
 
@@ -55,7 +57,7 @@ public class UsuarioService implements IUsuarioService {
         usuario.setIdUsuario(id);
         usuario.setUsername(dto.getUsername());
         usuario.setCorreo(dto.getCorreo());
-        usuario.setPassword(dto.getPassword());
+        usuario.setPassword(passwordEncoder.encode(dto.getPassword()));;
         usuario.setEstado(dto.getEstado());
         usuario.setRol(rol);
 
