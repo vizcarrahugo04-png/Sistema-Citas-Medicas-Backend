@@ -25,6 +25,14 @@ public class PacienteService implements IPacienteService {
     public PacienteDTO save (PacienteDTO dto){
         Usuario usuario = usuarioRepo.findById(dto.getIdUsuario()).orElseThrow(()-> new ResourceNotFoundExceptions("No se encontro el usuario con ID: "+dto.getIdUsuario()));
 
+        if (pacienteRepo.existsByDni(dto.getDni())) {
+        throw new RuntimeException("El DNI ya está registrado");
+        }
+
+        if (pacienteRepo.existsByUsuario_IdUsuario(dto.getIdUsuario())) {
+        throw new RuntimeException("Ese usuario ya tiene un paciente asignado");
+        }
+
         Paciente paciente = new Paciente();
         paciente.setNombres(dto.getNombres());
         paciente.setApellidos(dto.getApellidos());
@@ -46,6 +54,14 @@ public class PacienteService implements IPacienteService {
         Paciente paciente = pacienteRepo.findById(id).orElseThrow(()-> new ResourceNotFoundExceptions("No se encontro el paciente con ID: "+id));
 
         Usuario usuario = usuarioRepo.findById(dto.getIdUsuario()).orElseThrow(()-> new ResourceNotFoundExceptions("No se encontro el usuario con ID: "+dto.getIdUsuario()));
+
+        if (pacienteRepo.existsByDniAndIdPacienteNot(dto.getDni(), id)) {
+        throw new RuntimeException("El DNI ya está registrado");
+        }
+
+        if (pacienteRepo.existsByUsuario_IdUsuarioAndIdPacienteNot(dto.getIdUsuario(), id)) {
+        throw new RuntimeException("Ese usuario ya tiene un paciente asignado");
+        }
 
         paciente.setNombres(dto.getNombres());
         paciente.setApellidos(dto.getApellidos());

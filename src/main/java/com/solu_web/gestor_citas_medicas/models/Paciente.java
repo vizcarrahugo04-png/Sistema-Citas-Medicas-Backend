@@ -31,7 +31,7 @@ public class Paciente {
     private String apellidos;
     @Column(nullable = false, length = 8)
     private String dni;
-    @Column(nullable = false, length = 9)
+    @Column(nullable = false,unique = true, length = 9)
     private String telefono;
     @Column(nullable = false, length = 60)
     private String direccion;
